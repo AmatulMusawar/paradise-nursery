@@ -43,7 +43,6 @@ a {
   inset: 0;
   z-index: 0;
   color: #fff;
-  background: #1b3a2a url("/images/greenhouse.jpg") center / cover no-repeat;
 }
 
 .landing-dimmed {
@@ -171,15 +170,26 @@ a {
   opacity: 0.95;
 }
 
-.plants-link {
+.nav-links {
+  display: flex;
   justify-self: center;
+  gap: 28px;
+}
+
+.nav-links a {
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
   text-decoration: none;
 }
 
-.plants-link:hover {
+.nav-links a:hover {
   text-decoration: underline;
+}
+
+.cart-quantity {
+  margin: 0 0 18px;
+  text-align: center;
+  font-weight: 700;
 }
 
 .cart-link {
@@ -424,7 +434,7 @@ a {
     display: none;
   }
 
-  .plants-link {
+  .nav-links a {
     font-size: 18px;
   }
 }
@@ -435,7 +445,7 @@ a {
     row-gap: 4px;
   }
 
-  .plants-link {
+  .nav-links {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-self: center;

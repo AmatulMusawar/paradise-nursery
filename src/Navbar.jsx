@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useSelector } from 'react-redux';
+import { selectTotalQuantity } from './CartSlice';
 
-export default function Header() {
-  const { totalItems } = useCart();
+export default function Navbar() {
+  const totalQuantity = useSelector(selectTotalQuantity);
 
   return (
     <header className="site-header">
@@ -16,14 +17,8 @@ export default function Header() {
               strokeWidth="3"
               strokeLinecap="round"
             />
-            <path
-              d="M32 36c0-8-12-10-14-4 6 1 12 4 14 4z"
-              fill="#43A047"
-            />
-            <path
-              d="M32 32c0-10 14-12 16-4-8 1-14 4-16 4z"
-              fill="#66BB6A"
-            />
+            <path d="M32 36c0-8-12-10-14-4 6 1 12 4 14 4z" fill="#43A047" />
+            <path d="M32 32c0-10 14-12 16-4-8 1-14 4-16 4z" fill="#66BB6A" />
           </svg>
         </span>
         <span className="brand-text">
@@ -32,14 +27,16 @@ export default function Header() {
         </span>
       </Link>
 
-      <Link to="/plants" className="plants-link">
-        Plants
-      </Link>
+      <nav className="nav-links" aria-label="Main">
+        <Link to="/">Home</Link>
+        <Link to="/plants">Plants</Link>
+        <Link to="/cart">Cart</Link>
+      </nav>
 
       <Link
         to="/cart"
         className="cart-link"
-        aria-label={`Shopping cart, ${totalItems} item${totalItems === 1 ? '' : 's'}`}
+        aria-label={`Shopping cart, ${totalQuantity} item${totalQuantity === 1 ? '' : 's'}`}
       >
         <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
           <path
@@ -59,7 +56,7 @@ export default function Header() {
           <circle cx="9" cy="20" r="1.4" fill="#ffffff" />
           <circle cx="18" cy="20" r="1.4" fill="#ffffff" />
         </svg>
-        <span className="cart-count">{totalItems}</span>
+        <span className="cart-count">{totalQuantity}</span>
       </Link>
     </header>
   );

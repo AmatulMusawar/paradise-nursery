@@ -1,33 +1,29 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import { useCart } from '../context/CartContext';
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+  selectCartItems,
+  selectTotalAmount,
+  selectTotalQuantity,
+} from './CartSlice';
+import Navbar from './Navbar';
 
-export default function CartPage() {
+export default function CartItem() {
   const navigate = useNavigate();
-  const {
-    items,
-    totalAmount,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-    clearCart,
-  } = useCart();
+  const dispatch = useDispatch();
+  const items = useSelector(selectCartItems);
+  const totalQuantity = useSelector(selectTotalQuantity);
+  const totalAmount = useSelector(selectTotalAmount);
   const [notice, setNotice] = useState('');
-
-  const handleCheckout = () => {
-    if (items.length === 0) {
-      setNotice('Your cart is empty. Add a plant before checking out.');
-      return;
-    }
-    clearCart();
-    setNotice('Thank you for your order. Your plants are on their way.');
-  };
 
   return (
     <div className="shop-shell">
-      <Header />
+      <Navbar />
       <main className="shop-main cart-page">
+        <p className="cart-total">Total Plants: {totalQuantity}</p>
         <p className="cart-total">Total Cart Amount: ${totalAmount}</p>
 
         {items.length > 0 && (
@@ -44,7 +40,7 @@ export default function CartPage() {
                       className="qty-btn"
                       aria-label={`Decrease ${item.name} quantity`}
                       disabled={item.quantity <= 1}
-                      onClick={() => decreaseQuantity(item.id)}
+                      onClick={() => dispatch(decreaseQuantity(item.id))}
                     >
                       −
                     </button>
@@ -53,21 +49,16 @@ export default function CartPage() {
                       type="button"
                       className="qty-btn"
                       aria-label={`Increase ${item.name} quantity`}
-                      onClick={() => increaseQuantity(item.id)}
+                      onClick={() => dispatch(increaseQuantity(item.id))}
                     >
                       +
                     </button>
                   </div>
-                  <p className="line-total">
-                    Total: ${item.price * item.quantity}
-                  </p>
+                  <p className="line-total">Total: ${item.price * item.quantity}</p>
                   <button
                     type="button"
                     className="btn delete-btn"
-                    onClick={() => {
-                      removeFromCart(item.id);
-                      setNotice('');
-                    }}
+                    onClick={() => dispatch(removeFromCart(item.id))}
                   >
                     Delete
                   </button>
@@ -91,7 +82,11 @@ export default function CartPage() {
           >
             Continue Shopping
           </button>
-          <button type="button" className="btn action-btn" onClick={handleCheckout}>
+          <button
+            type="button"
+            className="btn action-btn"
+            onClick={() => setNotice('Coming Soon')}
+          >
             Checkout
           </button>
         </div>

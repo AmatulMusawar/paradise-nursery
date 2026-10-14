@@ -1,0 +1,7 @@
+.landing {
+  background-color: #1b3a2a;
+  background-image: url("/images/greenhouse.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
